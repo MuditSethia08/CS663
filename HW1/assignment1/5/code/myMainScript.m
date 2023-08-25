@@ -16,21 +16,14 @@ title('Image 2');
 
 %%
 % Collect corresponding points
-% for i = 1 : 3
-%     figure(1); 
-%     imshow(im1/255);
-%     [x1(i), y1(i)] = ginput(1);
-%     figure(2); 
-%     imshow(im2/255); 
-%     [x2(i), y2(i)] = ginput(1);
-% end
-% 
-% 
-
-x1 = [266   204   352];
-y1 = [78.0000  256.0000  256.0000];
-x2 = [304   238   392];
-y2 = [96.0000  276.0000  274.0000];
+for i = 1 : 3
+    figure(1); 
+    imshow(im1/255);
+    [x1(i), y1(i)] = ginput(1);
+    figure(2); 
+    imshow(im2/255); 
+    [x2(i), y2(i)] = ginput(1);
+end
 
 points1 = [x1', y1'];
 points2 = [x2', y2'];
@@ -49,12 +42,6 @@ tform = (fin*(init'))/(init*(init'));
 disp('Affine Transformation Matrix:');
 disp(tform);
 
-%%
-% Compute the affine transformation matrix
-tform_func = fitgeotrans(points2, points1, 'affine');
-
-% Apply the transformation to image 2 to align it with image 1
-outputImage = imwarp(im2, tform_func);
 
 %% 
 % For nearest neighbour interpolation
@@ -109,7 +96,15 @@ end
 %% 
 % Display the aligned images
 figure;
+imshow(new_im);
+title('Nearest Neighbour interpolation');
+figure;
+imshow(new_im_bilinear/255);
+title('Bilinear interpolation');
+
+figure;
 montage({im1/255, im2/255, new_im, new_im_bilinear/255});
+title('Iamge 1, Image 2, Nearest Neighbour interpolation, Bilinear interpolation');
 toc;
 
 %%
