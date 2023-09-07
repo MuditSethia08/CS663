@@ -9,9 +9,9 @@ figure(1); imagesc(originalBarbara); colormap("gray"); title("Original barbara25
 figure(2); imagesc(originalKodak); colormap("gray"); title("Original kodak24");
 
 % Set noise and filter parameters
-noiseStdDev = 5 / 255; % Noise standard deviation
-spatialStdDev = 2;     % Spatial standard deviation
-rangeStdDev = 2 / 255; % Range standard deviation (scaled for 0-1 range)
+noiseStdDev = 10 / 255; % Noise standard deviation
+spatialStdDev = 3;     % Spatial standard deviation
+rangeStdDev = 15 / 255; % Range standard deviation (scaled for 0-1 range)
 
 % Add noise to the images
 noisyBarbara = originalBarbara + noiseStdDev * randn(size(originalBarbara));
