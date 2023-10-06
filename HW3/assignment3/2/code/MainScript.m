@@ -4,8 +4,8 @@ clear; close all; clc;
 img = im2double(imread('barbara256.png'));
 figure; imshow(img); colormap("gray"); title('Original Image');
 
-%padded_img = padarray(img, [ceil(size(img, 1) / 2), ceil(size(img, 2) / 2)]); %padding the image
-padded_img = img;
+padded_img = padarray(img, [ceil(size(img, 1) / 2), ceil(size(img, 2) / 2)]); %padding the image
+%padded_img = img;
 
  
 img_filtered_ideal_40 = IdealLowPass_filter(padded_img, 40); % Ideal Low pass filtered image with cutoff frequency D = 40
