@@ -7,12 +7,11 @@ function denoised_img=myPCADenoising1(im1,sigma)
     [V,~] = eig(X*X');                  
     eigen_coeff_vec = V'*X;             
 
-    [~,N] = size(eigen_coeff_vec); % A = 49 and N = 62500
+    [~,N] = size(eigen_coeff_vec); 
     right = (sum(eigen_coeff_vec.*eigen_coeff_vec,2))/N - sigma*sigma;
     average = max(0,right);
-    den = eigen_coeff_vec./(1+(sigma*sigma)./average); %step5
-    qdenoise = V*den; %step6'
-     
+    den = eigen_coeff_vec./(1+(sigma*sigma)./average); 
+    qdenoise = V*den; 
     newsize = size(im1) - [7,7] +1;
     denoised_img_distinct = col2im(qdenoise,[7,7],newsize.*[7,7],'distinct');
     denoised_img_temp = zeros([size(denoised_img_distinct,1),size(im1,2)]);

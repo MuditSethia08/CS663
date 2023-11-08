@@ -50,7 +50,7 @@ disp('RMSE stream B:');
 disp(rmse);
 figure;
 imshowpair(im1_gaussian/255, im2_b/255, 'montage');
-title('Noisy image and Denoised Image using 200 most similar patches', 'Fontsize', 12, 'Fontname', 'Cambria');
+title('Noisy image and Denoised Image', 'Fontsize', 12, 'Fontname', 'Cambria');
 
 
 

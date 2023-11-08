@@ -1,40 +1,32 @@
 
- function filtered_img = myBilateralFiltering(img, window, sigma_space, sigma_intensity)
-    % img to be in  'double' format
-    % window to be a positive odd integer
-    
-    filtered_img = double(zeros(size(img,1), size(img,2)));
-    % disp(filtered_img);
-    % Get weights for spatial Gaussian
-    [x,y] = meshgrid(-floor(window/2): floor(window/2), -floor(window/2): floor(window/2));
-    G_s = exp(-(x.^2 + y.^2)/(2 * sigma_space^2));
-    
-    wait = waitbar(0, "Bilateral Filter in Progress");
-    
-    % Pass over the image
-    for i = 1:size(img,1)
-        % disp(i);
-        % max & min used to account for edge pixels
-        i_min = max(i - floor(window/2), 1);    
-        i_max = min(i + floor(window/2), size(img,1));
-        
-        for j = 1:size(img,2)
+ function filtered_img = myBilateralFiltering(input_image, filter_size, space_sigma, intensity_sigma)
+    output_image = double(zeros(size(input_image, 1), size(input_image, 2)));
 
-            % max & min used to account for edge pixels
-            j_min = max(j - floor(window/2), 1);
-            j_max = min(j + floor(window/2), size(img,2));
-            
-            curr_intensity = img(i,j);
-            intensity_window = img(i_min:i_max, j_min:j_max);
-            
-            % get weights for intensity gaussian
-            G_i = exp(-(intensity_window - curr_intensity).^2 / (2 * sigma_intensity^2));
-            
-            overall_weights = G_s((i_min:i_max) - i + floor(window/2) + 1, (j_min:j_max) - j + floor(window/2) + 1) .* G_i;
-            filtered_img(i,j) = sum(sum(overall_weights .* intensity_window)) / sum(sum(overall_weights));     
-            
+    [X, Y] = meshgrid(-floor(filter_size / 2):floor(filter_size / 2), -floor(filter_size / 2):floor(filter_size / 2));
+    spatial_weights = exp(-(X.^2 + Y.^2) / (2 * space_sigma^2));
+
+    wait = waitbar(0, "Bilateral Filter in Progress");
+
+    for i = 1:size(input_image, 1)
+        i_min = max(i - floor(filter_size / 2), 1);
+        i_max = min(i + floor(filter_size / 2), size(input_image, 1);
+
+        for j = 1:size(input_image, 2)
+            j_min = max(j - floor(filter_size / 2), 1);
+            j_max = min(j + floor(filter_size / 2), size(input_image, 2);
+
+            curr_intensity = input_image(i, j);
+            intensity_window = input_image(i_min:i_max, j_min:j_max);
+
+            intensity_weights = exp(-(intensity_window - curr_intensity).^2 / (2 * intensity_sigma^2));
+
+            overall_weights = spatial_weights((i_min:i_max) - i + floor(filter_size / 2) + 1, (j_min:j_max) - j + floor(filter_size / 2) + 1) .* intensity_weights;
+
+            output_image(i, j) = sum(sum(overall_weights .* intensity_window)) / sum(sum(overall_weights));
         end
-        waitbar(i/double(size(img,1)));
+
+        waitbar(i / double(size(input_image, 1)));
     end
+
     close(wait);
 end
